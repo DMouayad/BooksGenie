@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "428651767494",
+    "project_id": "books-genie",
+    "storage_bucket": "books-genie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428651767494:android:4e109a48d4ba263c04d9c7",
+        "android_client_info": {
+          "package_name": "com.example.books_genie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428651767494-iud93vlv1fn59bmpoq7gu11gevm50vsc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgHhQwvV2rQBUIsxtQENPCuyu8foZkvOM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428651767494-f9i6supti9dgv5gjolghfct14c3l2far.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "428651767494-aqccs4t5plc43rhke5sjg49no7b1m5qc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myClinicScreenshots"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428651767494:android:b2d9cf5fd24c10c304d9c7",
+        "android_client_info": {
+          "package_name": "com.example.my_clinic_screenshots"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428651767494-v8hc05mr0ejtk3nlapecrvsl38ugs58v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.my_clinic_screenshots",
+            "certificate_hash": "7082aa2eda91c11a62ad118fb456add275f1c8f2"
+          }
+        },
+        {
+          "client_id": "428651767494-iud93vlv1fn59bmpoq7gu11gevm50vsc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgHhQwvV2rQBUIsxtQENPCuyu8foZkvOM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428651767494-f9i6supti9dgv5gjolghfct14c3l2far.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "428651767494-aqccs4t5plc43rhke5sjg49no7b1m5qc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myClinicScreenshots"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

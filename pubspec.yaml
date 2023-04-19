@@ -1,0 +1,75 @@
+name: books_genie
+description: A Library app that makes it easy to keep track of your favorite books.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+
+isar_version: &isar_version 3.0.5 # define the version to be used
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  line_icons: ^2.0.1
+  font_awesome_flutter: ^10.4.0
+  device_preview: ^1.1.0
+  flutter_bloc: ^8.1.2
+  equatable: ^2.0.5
+  get_it: ^7.2.0
+  go_router: ^6.5.2
+  books_finder: ^4.3.0
+  firebase_auth: ^4.4.0
+  firebase_core: ^2.9.0
+  isar: *isar_version
+  isar_flutter_libs: *isar_version
+  google_sign_in: ^6.0.2
+  easy_localization: ^3.0.1
+  cached_network_image: ^3.2.3
+  extended_image:
+  logger: ^1.3.0
+  intl: ^0.17.0
+  url_launcher: ^6.1.10
+  flutter_native_splash: ^2.2.19
+  hydrated_bloc: ^9.1.0
+  path_provider:
+  crypto: ^3.0.2
+  faker: ^2.1.0
+  bloc_concurrency: ^0.2.1
+  device_preview_screenshot:
+  cloud_firestore: ^4.5.1
+  msix: ^3.10.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  go_router_builder:
+  isar_generator: *isar_version
+  build_runner:
+  build_verify:
+# The following section is specific to Flutter packages.
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/translations/
+    - assets/icons/
+
+  fonts:
+    - family: pierSans
+      fonts:
+        - asset: assets/fonts/PierSans-Regular.otf
+          style: normal
+          weight: 500
+        - asset: assets/fonts/PierSans-Medium.otf
+          style: normal
+          weight: 600
+
+    - family: merriweather
+      fonts:
+        - asset: assets/fonts/Merriweather-Regular.ttf
+    - family: inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
