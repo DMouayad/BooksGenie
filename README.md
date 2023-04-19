@@ -2,74 +2,80 @@
 <img src="/assets/app%20name%20cover.png" alt="App name cover"/>
 </div>
 
-
 ## Table of Contents
 
-* [About](#about)
-* [Demo](#demo)
-* [Built-With](#built-with)
-* [Documentation](#documentation)
-* [Project Status](#project-status)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Setup](#setup)
-* [Usage](#usage)
-* [Credits](#credits)
-* [License](#license)
+- [Table of Contents](#table-of-contents)
+- [About](#about)
+- [Demo](#demo)
+  - [Screenshots](#screenshots)
+  - [Download](#download)
+- [Built-With](#built-with)
+- [Documentation](#documentation)
+  - [System Design \& Architecture](#system-design--architecture)
+  - [Features](#features)
+- [Project Status](#project-status)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+    - [Setup](#setup)
+    - [Usage](#usage)
+- [License](#license)
 
 ## About
 
 **Books Genie** is:
-* A cross-platform app built with Flutter.
-* An easy way to keep track of your favorite books and novels.
-* Designed with a beautiful, engaging and minimal UI.  
 
+- A cross-platform app built with Flutter.
+- An easy way to keep track of your favorite books and novels.
+- Designed with a beautiful, engaging and minimal UI.  
 
 ## Demo
 
-#### Screenshots
+### Screenshots
 
-![](assets/screenshots.png)
+![app screenshots](assets/screenshots.png)
 
+### Download
 
-#### Download
-
-To preview the app, you can download it for your device OS:
+To preview the app, you can download it for your device OS from:
  <p align="center" style="align-items:center">
- <a href="" rel="GitHub Releases">
+ <a href="https://github.com/DMouayad/BooksGenie/releases/tag/V1.0.0" rel="GitHub Releases">
  <img width="100" height="100" src="https://telegra.ph/file/21bb2cc648561f192cea4.png"></a>
-</p> 
+</p>
 
 ## Built-With
 
-* **Flutter**
+- **Flutter**
     >For help to get started with Flutter development, view the [online documentation](https://docs.flutter.dev/).
 
-    * **State Management**: [BloC](https://bloclibrary.dev/).
-    * **Offline Storage**: [Isar](https://isar.dev/).
-    * **Cloud & Offline Storage**: [Firebase](https://firebase.google.com/docs/).
+  - **State Management**: [BloC](https://bloclibrary.dev/).
+  - **Offline Storage**: [Isar](https://isar.dev/).
+  - **Cloud & Offline Storage**: [Firebase](https://firebase.google.com/docs/).
 
-* **GoogleBooks API**
-    * using [books_finder](https://pub.dev/packages/books_finder) package.
+- **GoogleBooks API**
+  - using [books_finder](https://pub.dev/packages/books_finder) package.
 
 ## Documentation
 
-#### System Design & Architecture
+### System Design & Architecture
 
-* The design of this app is a custom combination of *Clean Architecture* and *DDD*.
-* Using this approach, it was possible to allow the user to dynamically change the way to save his books preferences and
+- The design of this app is a custom combination of *Clean Architecture* and *DDD*.
+- Using this approach, it was possible to allow the user to dynamically change the way to save his books preferences and
 collections.
- 
-#### Features
 
-* Multi-Language Support
+### Features
+
+- Recommendations and popular publications.
+- Books search.
+- Personal books collections(favorite - reading now - have read).
+
+- Multi-Language Support
 
   |   Language   |  Status |
   |:---------:|:---------:|
   | Arabic        | ⏳    |
-  | English        | ✅   |
+  | English        | ✔   |
   
-* Multi-Platform Support:
+- Multi-Platform Support:
 
   | Platform | Supported | Adaptive UI/UX Implemented |
   |:--------:|:---------:|:--------------------------:|
@@ -77,23 +83,28 @@ collections.
   |   IOS    |     ✔     |             ✔            |
   | Windows  |     ✔     |             ⏳             |
 
-* Multi-storage-option Support:
+- Multi-storage-option Support:
+
+  | Option | Offline | Cloud |
+  |:--------:|:---------:|:--------------------------:|
+  | Isar  |     ✔     |             ❌             |
+  |   Firebase    |     ✔     |             ✔            |
 
 ## Project Status
 
-* This project is a **work-in-progress**.
+- This project is a **work-in-progress**.
 
 ## Getting Started
 
-#### Prerequisites
+### Prerequisites
 
-* If you are new to Flutter, start with the [installation instruction](https://flutter.io/docs/get-started/install).
+- If you are new to Flutter, start with the [installation instruction](https://flutter.io/docs/get-started/install).
 
-* Flutter v3.7 & Dart v2.19 - or higher.
+- Flutter v3.7 & Dart v2.19 - or higher.
 
-* For running on *Windows*, please read the following [requirements](https://docs.flutter.dev/development/platform-integration/desktop#requirements).
+- For running on *Windows*, please read the following [requirements](https://docs.flutter.dev/development/platform-integration/desktop#requirements).
 
-* Run the command `flutter doctor -v` in a terminal to make sure no issues are present.
+- Run the command `flutter doctor -v` in a terminal to make sure no issues are present.
 
 #### Setup
 
@@ -101,8 +112,8 @@ collections.
 
 **Step 2:** run these commands in the terminal:
 
-*  `cd path_of_project_folder`
-*  `flutter pub get`
+- `cd path_of_project_folder`
+- `flutter pub get`
 
 #### Usage
 
@@ -110,13 +121,13 @@ You can run the app using:
 
 **Option 1**
 
-* Open the project in an IDE.
-* Select the device you wish to run the app on.
-* Run `lib\main.dart`.
+- Open the project in an IDE.
+- Select the device you wish to run the app on.
+- Run `lib\main.dart`.
 
 **Option 2:**
 
-* In the project directory, run in the terminal one of the commands:
+- In the project directory, run in the terminal one of the commands:
 
   ```dart
       flutter run -d windows
@@ -129,14 +140,12 @@ You can run the app using:
 
 You can also specify the build mode of the app:
 
-* Using an IDE: most IDEs support different build\run modes. check your IDE's *Run Settings & Configuration*.
+- Using an IDE: most IDEs support different build\run modes. check your IDE's *Run Settings & Configuration*.
 
-* Using the terminal, specify the argument after `flutter run` from the following:
+- Using the terminal, specify the argument after `flutter run` from the following:
 
-  * `-d` or `--debug`: to run the debug-version.
-  * `-r` or `--release`: to run the deployment(release) version.
-
-## Credits
+  - `-d` or `--debug`: to run the debug-version.
+  - `-r` or `--release`: to run the deployment(release) version.
 
 ## License
 
