@@ -65,7 +65,7 @@ collections.
 
 ### Diagrams
 
-- [link](https://shorturl.at/aepqK)
+- [C4 model diagrams](https://shorturl.at/aepqK)
 
 ### Features
 
