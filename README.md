@@ -12,6 +12,7 @@
 - [Built-With](#built-with)
 - [Documentation](#documentation)
   - [System Design \& Architecture](#system-design--architecture)
+  - [Diagrams](#diagrams)
   - [Features](#features)
 - [Project Status](#project-status)
 - [Getting Started](#getting-started)
@@ -61,6 +62,10 @@ To preview the app, you can download it for your device OS from:
 - The design of this app is a custom combination of *Clean Architecture* and *DDD*.
 - Using this approach, it was possible to allow the user to dynamically change the way to save his books preferences and
 collections.
+
+### Diagrams
+
+- [link](https://shorturl.at/aepqK)
 
 ### Features
 
