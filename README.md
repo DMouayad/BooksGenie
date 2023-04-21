@@ -1,10 +1,11 @@
 <div align="center">
 <img src="/assets/app%20name%20cover.png" alt="App name cover"/>
 </div>
-
-## Table of Contents
-
-- [Table of Contents](#table-of-contents)
+<div align="center"><h2><i>Books Genie</i></h2></div>
+<br/><br/>
+<details>
+  <summary><b>Table of Contents</b></summary>
+  
 - [About](#about)
 - [Demo](#demo)
   - [Screenshots](#screenshots)
@@ -20,6 +21,7 @@
     - [Setup](#setup)
     - [Usage](#usage)
 - [License](#license)
+</details>
 
 ## About
 
@@ -65,7 +67,21 @@ collections.
 
 ### Diagrams
 
-- [C4 model diagrams](https://shorturl.at/aepqK)
+#### C4 model 
+
+| System Context Diagram|
+| -------------- |
+| ![system context diagram](assets/diagrams/system.png)|
+
+| Container Diagram |
+| -------------- |
+| ![Container diagram](assets/diagrams/container.png)|
+
+| Component Diagram |
+| -------------- |
+| ![Component diagram](assets/diagrams/component.png)|
+
+- [(view in app.diagrams website)](https://shorturl.at/aepqK)
 
 ### Features
 
