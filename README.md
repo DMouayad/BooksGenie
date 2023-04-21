@@ -69,6 +69,9 @@ collections.
 
 #### C4 model 
 
+<details>  
+  <summary>view</summary>
+
 | System Context Diagram|
 | -------------- |
 | ![system context diagram](assets/diagrams/system.png)|
@@ -81,7 +84,9 @@ collections.
 | -------------- |
 | ![Component diagram](assets/diagrams/component.png)|
 
-- [(view in app.diagrams website)](https://shorturl.at/aepqK)
+</details>
+
+- open in [app.diagrams](https://shorturl.at/aepqK)
 
 ### Features
 
