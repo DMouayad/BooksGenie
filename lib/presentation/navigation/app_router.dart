@@ -1,9 +1,5 @@
-import 'package:books_genie/blocs/auth_bloc/auth_bloc.dart';
 import 'package:books_genie/blocs/library_bloc/library_bloc.dart';
-import 'package:books_genie/domain/auth/base/base_auth_repository.dart';
-import 'package:books_genie/domain/book/base/base_book_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:books_genie/presentation/screens/book_details/book_details_screen.dart';
 import 'package:books_genie/presentation/screens/home/home_screen.dart';

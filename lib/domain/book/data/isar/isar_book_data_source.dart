@@ -13,19 +13,19 @@ class IsarBookDataSource
   Isar get _isarDB => GetIt.instance.get<Isar>();
 
   @override
-  Future<Result<BookModel?, AppError>> getByGoogleBooksId(String id) async {
+  Future<Result<BookModel?, AppError>> getById(String id) async {
     return SuccessResult(
-      await _isarDB.bookModels.where().googleBookIdEqualTo(id).findFirst(),
+      await _isarDB.bookModels.where().idEqualTo(id).findFirst(),
     );
   }
 
   @override
-  FutureResult<List<BookModel>> searchFor(List<String> terms) async {
+  FutureResult<List<BookModel>> searchFor(String term) async {
     return await Result.fromStream((sink) async {
       final result = await _isarDB.bookModels
           .filter()
           .anyOf(
-            terms,
+            term.split(' '),
             (bookQuery, String term) => bookQuery.info(
               (q) => q.anyOf(
                   [term],

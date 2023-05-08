@@ -8,8 +8,8 @@ abstract class BaseBookDataSource<B extends BaseBook,
     C extends BaseUserBookCollection> {
   const BaseBookDataSource();
   FutureResult<B> saveBook(B book);
-  FutureResult<B?> getByGoogleBooksId(String id);
-  FutureResult<List<B>> searchFor(List<String> terms);
+  FutureResult<B?> getById(String id);
+  FutureResult<List<B>> searchFor(String term);
 
   FutureVoidResult saveUserBookCollection(C userBookCollection);
 

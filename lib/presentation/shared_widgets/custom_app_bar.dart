@@ -1,11 +1,11 @@
 import 'dart:math';
 
+import 'package:books_genie/domain/book/base/entities/base_book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:books_genie/presentation/shared_widgets/fade_slide_transition.dart';
 import 'package:books_genie/presentation/shared_widgets/profile_icon_button.dart';
 import 'package:books_genie/support/utils/context_extensions.dart';
-import 'package:flutter/services.dart';
 
 class CustomAppbar extends StatelessWidget {
   final ScrollController scrollController;
@@ -16,14 +16,16 @@ class CustomAppbar extends StatelessWidget {
   final Animation<double>? welcomeMessageFadeAnimation;
   final Widget? title;
   final String? titleText;
-  final double? expandedHeight;
+  final double expandedHeight;
   final void Function(String?)? onSearch;
   final String searchHint;
   final bool searchEnabled;
+  final List<BaseBook> searchResultItems;
+  final bool searchInProgress;
 
   const CustomAppbar({
     super.key,
-    this.expandedHeight,
+    required this.expandedHeight,
     this.searchBarFadeAnimation,
     this.searchBarSlideAnimation,
     this.welcomeMessageSlideAnimation,
@@ -32,7 +34,9 @@ class CustomAppbar extends StatelessWidget {
     this.searchEnabled = true,
     this.title,
     this.titleText,
+    this.searchResultItems = const [],
     this.searchHint = 'Search...',
+    this.searchInProgress = false,
     required this.animateComponentsOnInit,
     required this.scrollController,
   }) : assert(
@@ -46,15 +50,9 @@ class CustomAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _expandedHeight = expandedHeight ??
-        min(
-            250.0,
-            (context.isLandscapeMode
-                    ? context.screenWidth
-                    : context.screenHeight) *
-                .4);
     final showActionsAndLeadingIcons =
         (context.isMobile || context.isPortraitTablet);
+
     return SliverAppBar.medium(
       pinned: true,
       elevation: 0,
@@ -68,7 +66,7 @@ class CustomAppbar extends StatelessWidget {
       // systemNavigationBarContrastEnforced: true,
       // ),
       automaticallyImplyLeading: false,
-      expandedHeight: _expandedHeight,
+      expandedHeight: expandedHeight,
       scrolledUnderElevation: 0,
       collapsedHeight: 80,
       leading: showActionsAndLeadingIcons
@@ -116,59 +114,65 @@ class CustomAppbar extends StatelessWidget {
                 ),
               ),
             ],
-      flexibleSpace: FlexibleSpaceBar(
-        expandedTitleScale: 1,
-        titlePadding: const EdgeInsets.only(bottom: 8),
-        background: FadeSlideTransition(
-          animate: animateComponentsOnInit,
-          slideAnimation: welcomeMessageSlideAnimation,
-          fadeAnimation: welcomeMessageFadeAnimation,
-          child: _Title(scrollController, title: title, titleText: titleText),
-        ),
-        title: CustomAnimatedBuilder(
-          animation: scrollController,
-          animatedChildBuilder: (BuildContext context, Widget child) {
-            final c1 = _expandedHeight /
-                (min(_expandedHeight, scrollController.offset));
-            final position = 6.0 * min(2.0, c1 - 1.0);
-            return Positioned(
-              left: position,
-              right: position,
-              bottom: position,
-              child: child,
-            );
-          },
-          child: FadeSlideTransition(
-            slideAnimation: searchBarSlideAnimation,
-            fadeAnimation: searchBarFadeAnimation,
-            animate: animateComponentsOnInit,
-            child: SizedBox(
-              height: 54,
-              child: CupertinoSearchTextField(
-                enabled: searchEnabled,
-                prefixInsets: const EdgeInsets.fromLTRB(10, 0, 5, 0),
-                padding: const EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
-                placeholder: searchHint,
-                placeholderStyle: context.textTheme.bodyMedium?.copyWith(
-                  color: context.isDarkMode
-                      ? Colors.white70
-                      : context.colorScheme.onBackground.withOpacity(.8),
-                ),
-                onChanged: onSearch,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 8,
-                      color: context.colorScheme.onBackground.withOpacity(.1),
-                    )
-                  ],
-                  // color: Colors.black12,
-                  color: context.colorScheme.background,
+      flexibleSpace: Stack(
+        children: [
+          FlexibleSpaceBar(
+            expandedTitleScale: 1,
+            titlePadding: const EdgeInsets.only(bottom: 8),
+            background: FadeSlideTransition(
+              animate: animateComponentsOnInit,
+              slideAnimation: welcomeMessageSlideAnimation,
+              fadeAnimation: welcomeMessageFadeAnimation,
+              child:
+                  _Title(scrollController, title: title, titleText: titleText),
+            ),
+            title: CustomAnimatedBuilder(
+              animation: scrollController,
+              animatedChildBuilder: (BuildContext context, Widget child) {
+                final c1 = expandedHeight /
+                    (min(expandedHeight, scrollController.offset));
+                final position = 6.0 * min(2.0, c1 - 1.0);
+                return Positioned(
+                  left: position,
+                  right: position,
+                  bottom: position,
+                  child: child,
+                );
+              },
+              child: FadeSlideTransition(
+                slideAnimation: searchBarSlideAnimation,
+                fadeAnimation: searchBarFadeAnimation,
+                animate: animateComponentsOnInit,
+                child: SizedBox(
+                  height: 54,
+                  child: CupertinoSearchTextField(
+                    enabled: searchEnabled,
+                    prefixInsets: const EdgeInsets.fromLTRB(10, 0, 5, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
+                    placeholder: searchHint,
+                    placeholderStyle: context.textTheme.bodyMedium?.copyWith(
+                      color: context.isDarkMode
+                          ? Colors.white70
+                          : context.colorScheme.onBackground.withOpacity(.8),
+                    ),
+                    onChanged: onSearch,
+                    onSubmitted: onSearch,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 8,
+                          color:
+                              context.colorScheme.onBackground.withOpacity(.1),
+                        )
+                      ],
+                      color: context.colorScheme.background,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

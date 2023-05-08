@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:books_genie/presentation/themes/app_color_scheme.dart';
@@ -30,6 +31,10 @@ extension ResponsiveContextExtension on BuildContext {
       return screenWidth * 0.04;
     }
     return 12.0;
+  }
+
+  double get appBarExpandedHeight {
+    return min(250.0, .4 * (isLandscapeMode ? screenWidth : screenHeight));
   }
 }
 

@@ -23,6 +23,8 @@ class ExceptionHandler {
         st: e.stackTrace,
         appException: AppExceptionParser.fromFirebaseExceptionCode(e.code),
       ) as V;
+    } else if (e is String) {
+      error = AppError(message: e) as V;
     } else if (e is Error) {
       error = AppError(
         st: e.stackTrace,
@@ -31,8 +33,6 @@ class ExceptionHandler {
     }
     // Log.e(error);
 
-    return error != null
-        ? FailureResult(error)
-        : FailureResult.withException(e);
+    return error != null ? FailureResult(error) : FailureResult(e);
   }
 }

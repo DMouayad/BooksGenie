@@ -73,3 +73,12 @@ flutter:
     - family: inter
       fonts:
         - asset: assets/fonts/Inter-Regular.ttf
+
+msix_config:
+    display_name: BooksGenie
+    publisher_display_name: Mouayad_Alhamwi
+    identity_name: d_mouayad.books_genie
+    publisher:
+    msix_version: 1.0.0.0
+    logo_path: ./assets/icons/<icon_tran.png>
+    store: true

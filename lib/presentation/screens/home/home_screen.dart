@@ -81,6 +81,10 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   void _onPageChanged(int index) {
-    pageController.jumpToPage(index);
+    pageController.animateToPage(
+      index,
+      curve: Curves.fastOutSlowIn,
+      duration: const Duration(milliseconds: 500),
+    );
   }
 }

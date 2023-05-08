@@ -5,6 +5,7 @@ import 'package:books_genie/domain/auth/data/isar/isar_auth_repository.dart';
 import 'package:books_genie/domain/auth/data/isar/isar_user.dart';
 import 'package:books_genie/domain/book/base/base_book_repository.dart';
 import 'package:books_genie/domain/book/data/firebase/firebase_book_repository.dart';
+import 'package:books_genie/domain/book/data/firebase/firebase_with_google_books_api_book_data_source.dart';
 import 'package:books_genie/domain/book/data/isar/isar_book_data_source.dart';
 import 'package:books_genie/domain/book/data/isar/isar_book_repository.dart';
 import 'package:books_genie/domain/book/data/isar/isar_with_google_books_api_book_data_source.dart';
@@ -43,6 +44,8 @@ class DependenciesService {
   static Future<void> registerFirebaseDependencies() async {
     GetIt.instance
       ..registerSingleton<BaseAuthRepository>(FirebaseAuthRepository())
-      ..registerSingleton<BaseBookRepository>(FirebaseBookRepository());
+      ..registerSingleton<BaseBookRepository>(FirebaseBookRepository(
+        const FirebaseWithGoogleBooksApiBookDataSource(),
+      ));
   }
 }

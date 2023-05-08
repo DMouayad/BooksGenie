@@ -10,11 +10,14 @@ abstract class LibraryState extends Equatable {
 class LibraryBooksState extends LibraryState {
   const LibraryBooksState({
     this.userBookCollections = const [],
+    this.searchResults = const [],
     this.explorePageBooks = const ExplorePageBooks(),
   });
 
   final List<BaseUserBookCollection> userBookCollections;
   final ExplorePageBooks explorePageBooks;
+  final List<BaseBook> searchResults;
+
   bool getBookIsFavorite(BaseBook book) {
     return favoriteBooksIds.contains(book.id);
   }
@@ -43,7 +46,8 @@ class LibraryBooksState extends LibraryState {
   }
 
   @override
-  List<Object?> get props => [userBookCollections, explorePageBooks];
+  List<Object?> get props =>
+      [userBookCollections, explorePageBooks, searchResults];
   @override
   String toString() {
     return '''
@@ -68,10 +72,12 @@ class LibraryBooksState extends LibraryState {
   LibraryBooksState copyWith({
     List<BaseUserBookCollection>? userBookCollections,
     ExplorePageBooks? explorePageBooks,
+    List<BaseBook>? searchResults,
   }) {
     return LibraryBooksState(
       userBookCollections: userBookCollections ?? this.userBookCollections,
       explorePageBooks: explorePageBooks ?? this.explorePageBooks,
+      searchResults: searchResults ?? this.searchResults,
     );
   }
 }
@@ -166,4 +172,22 @@ class AddingBooksToUserCollectionInProgress extends LibraryState {
 
 class AddingBooksToUserCollectionSuccess extends LibraryState {
   const AddingBooksToUserCollectionSuccess();
+}
+
+class LibrarySearchInProgress extends LibraryState {
+  const LibrarySearchInProgress();
+}
+
+class LibrarySearchCompleted extends LibraryState {
+  final List<BaseBook> items;
+
+  const LibrarySearchCompleted(this.items);
+
+  @override
+  String toString() {
+    return '$runtimeType: {found: ${items.length} books}';
+  }
+
+  @override
+  List<Object?> get props => [items];
 }

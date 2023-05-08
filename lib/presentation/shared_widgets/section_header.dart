@@ -6,6 +6,7 @@ class SectionHeader extends StatelessWidget {
   final void Function()? onSeeAllTap;
 
   const SectionHeader({super.key, required this.title, this.onSeeAllTap});
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -13,7 +14,7 @@ class SectionHeader extends StatelessWidget {
         title.toUpperCase(),
         style: context.textTheme.titleMedium?.copyWith(
           color: context.colorScheme.onBackground,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
         ),
       ),
       trailing: TextButton.icon(

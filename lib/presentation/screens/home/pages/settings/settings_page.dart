@@ -23,6 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
       controller: scrollController,
       slivers: [
         CustomAppbar(
+          expandedHeight: context.appBarExpandedHeight,
           animateComponentsOnInit: false,
           scrollController: scrollController,
           titleText: 'Settings',

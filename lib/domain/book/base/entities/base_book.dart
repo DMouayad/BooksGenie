@@ -3,7 +3,6 @@ import 'base_sale_info.dart';
 
 abstract class BaseBook<I extends BaseBookInfo, S extends BaseSaleInfo> {
   final String? id;
-  final String? googleBookId;
   final String? etag;
 
   /// A self link containing more specific information
@@ -16,7 +15,6 @@ abstract class BaseBook<I extends BaseBookInfo, S extends BaseSaleInfo> {
   final S saleInfo;
 
   BaseBook({
-    this.googleBookId,
     this.etag,
     this.selfLink,
     this.id,
@@ -30,7 +28,6 @@ abstract class BaseBook<I extends BaseBookInfo, S extends BaseSaleInfo> {
       other is BaseBook &&
           runtimeType == other.runtimeType &&
           id == other.id &&
-          googleBookId == other.googleBookId &&
           etag == other.etag &&
           selfLink == other.selfLink &&
           info == other.info &&
@@ -38,7 +35,6 @@ abstract class BaseBook<I extends BaseBookInfo, S extends BaseSaleInfo> {
 
   @override
   int get hashCode =>
-      googleBookId.hashCode ^
       etag.hashCode ^
       id.hashCode ^
       selfLink.hashCode ^

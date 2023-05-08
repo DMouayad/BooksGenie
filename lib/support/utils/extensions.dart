@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:books_genie/support/result/result.dart';
 
-extension ListExtensions on List {
+extension ListExtensions<T> on List<T> {
   List<String> toStringList() {
     final l = <String>[];
     for (var i in this) {
@@ -21,21 +21,21 @@ extension ListExtensions on List {
     return where((element) => element.runtimeType == type).isNotEmpty;
   }
 
-  T firstWhereType<T>(Type type) {
-    return (this as List<T>).whereType().first;
+  T firstWhereType(Type type) {
+    return (this).whereType().first;
   }
 
-  T? firstWhereOrNull<T>(bool Function(T element) condition) {
+  T? firstWhereOrNull(bool Function(T element) condition) {
     try {
-      return (this as List<T>).where((e) => condition(e)).first;
+      return (this).where((e) => condition(e)).first;
     } on StateError {
       return null;
     }
   }
 
-  T? firstWhereAnyOrNull<T>(List<bool> Function(T element) conditions) {
+  T? firstWhereAnyOrNull(List<bool> Function(T element) conditions) {
     try {
-      return (this as List<T>).firstWhere((T e) {
+      return (this).firstWhere((T e) {
         for (bool cond in conditions(e)) {
           if (cond) return cond;
         }

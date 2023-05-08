@@ -42,7 +42,7 @@ abstract class BaseBookRepository<B extends BaseBook,
 
   FutureResult<List<B>> getRecommendedList();
   FutureResult<List<B>> getMostPopularList();
-  FutureResult<List<B>> searchFor(List<String> terms);
+  FutureResult<List<B>> searchFor(String term);
 
   FutureResult<List<B>> addBooksToListOnSuccess(
       FutureResult<List<B>> booksResult) async {

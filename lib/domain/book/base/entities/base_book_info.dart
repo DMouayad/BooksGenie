@@ -16,13 +16,20 @@ abstract class BaseBookInfo<I extends BaseIndustryIdentifier,
     );
   }
 
+  String? get smallThumbnailImageLink {
+    return coverImageLinks.firstWhereAnyOrNull((element) {
+      return [
+        element.size == BookCoverSize.smallThumbnail,
+        element.size == BookCoverSize.mediumThumbnail,
+        element.size == BookCoverSize.small
+      ];
+    })?.url;
+  }
+
   String? get thumbnailImageLink {
-    final C? imageLink = coverImageLinks.firstWhereAnyOrNull((element) {
-      return List<bool>.from([
-        element.size == BookCoverSize.defaultThumbnail,
-      ]);
-    });
-    return imageLink?.url;
+    return coverImageLinks.firstWhereOrNull((element) {
+      return element.size == BookCoverSize.defaultThumbnail;
+    })?.url;
   }
 
   final Uri? canonicalVolumeLink;

@@ -9,8 +9,7 @@ import 'dart:core';
 
 class FirebaseBook extends BaseBook {
   FirebaseBook({
-    required super.googleBookId,
-    super.id,
+    required super.id,
     required super.info,
     required super.saleInfo,
     super.selfLink,
@@ -19,7 +18,6 @@ class FirebaseBook extends BaseBook {
 
   factory FirebaseBook.fromGoogleBook(Book book) {
     return FirebaseBook(
-      googleBookId: book.id,
       id: book.id,
       info: FirebaseBookInfo.tryFromMap(book.info.toJson()),
       saleInfo: FirebaseSaleInfo.fromMap(
@@ -36,7 +34,6 @@ class FirebaseBook extends BaseBook {
     final data = snapshot.data();
     return FirebaseBook(
       id: data?.whereKey('id'),
-      googleBookId: data?['googleBookId'],
       saleInfo: FirebaseSaleInfo.tryFromMap(data?.whereKey('saleInfo')),
       info: FirebaseBookInfo.tryFromMap(data?.whereKey('info')),
       selfLink: Uri.tryParse(data?.whereKey('selfLink')),
@@ -47,7 +44,6 @@ class FirebaseBook extends BaseBook {
   Map<String, dynamic> toFirestore() {
     return {
       if (id != null) 'id': id,
-      "googleBookId": googleBookId,
       'info': info.toMap(),
       'saleInfo': saleInfo.toMap(),
       if (etag != null) 'etag': etag,

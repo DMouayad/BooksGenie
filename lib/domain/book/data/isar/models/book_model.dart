@@ -10,29 +10,25 @@ import 'sale_info_model.dart';
 
 part 'book_model.g.dart';
 
-@Collection(ignore: {'id', 'selfLink', 'props', 'stringify'})
+@Collection(ignore: {'selfLink', 'props', 'stringify'})
 class BookModel extends BaseBook<BookInfoModel, SaleInfoModel>
     with EquatableMixin {
-  @Name('id')
   Id? isarId;
   @override
-  String? get id => isarId.toString();
-  @override
   @Index(type: IndexType.value)
-  String? get googleBookId;
+  String? get id;
 
   BookModel({
     super.id,
     super.etag,
     super.selfLink,
-    super.googleBookId,
     required super.info,
     required super.saleInfo,
   });
 
   factory BookModel.fromGoogleBook(Book book) {
     return BookModel(
-      googleBookId: book.id,
+      id: book.id,
       info: BookInfoModel.fromGoogleBookInfo(book.info),
       saleInfo: SaleInfoModel(
         country: book.saleInfo.country,
@@ -45,5 +41,5 @@ class BookModel extends BaseBook<BookInfoModel, SaleInfoModel>
 
   @override
   @ignore
-  List<Object?> get props => [info, saleInfo, id, selfLink, etag, googleBookId];
+  List<Object?> get props => [info, saleInfo, id, selfLink, etag, id];
 }

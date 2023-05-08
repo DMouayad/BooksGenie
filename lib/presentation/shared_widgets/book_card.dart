@@ -53,7 +53,7 @@ class BookCard extends StatelessWidget {
     );
     final isVerticalAligned = textAlign == TextAlign.center;
     return Hero(
-      tag: book.id ?? book.googleBookId ?? book.info.title,
+      tag: book.id ?? book.info.title,
       child: SizedBox(
         height: imageHeight + 100,
         // width: ,

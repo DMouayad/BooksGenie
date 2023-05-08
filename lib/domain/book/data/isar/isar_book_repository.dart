@@ -21,8 +21,9 @@ class IsarBookRepository extends BaseBookRepositoryWithGoogleBooksApi<BookModel,
   }
 
   @override
-  FutureResult<List<BookModel>> searchFor(List<String> terms) async {
-    return await dataSource.searchFor(terms);
+  FutureResult<List<BookModel>> searchFor(String term) async {
+    return (await dataSource.searchFor(term))
+        .fold(ifSuccess: (result) => _libraryBooks.addAll(result));
   }
 
   @override

@@ -8,6 +8,7 @@ import 'entities/base_user_book_collection.dart';
 abstract class BaseBookRepositoryWithGoogleBooksApi<B extends BaseBook,
     C extends BaseUserBookCollection> extends BaseBookRepository<B, C> {
   const BaseBookRepositoryWithGoogleBooksApi(super.dataSource);
+
   @override
   FutureResult<List<B>> getRecommendedList() async {
     return await addBooksToListOnSuccess(
@@ -26,10 +27,11 @@ abstract class BaseBookRepositoryWithGoogleBooksApi<B extends BaseBook,
       List<B> books = [];
 
       for (String id in booksIds) {
+        // first check if the book already exists in cache
         if (libraryBooks.where((e) => e.id == id).isNotEmpty) {
           books.add(libraryBooks.where((e) => e.id == id).first);
         } else {
-          (await dataSource.getByGoogleBooksId(id)).fold(
+          (await dataSource.getById(id)).fold(
             ifSuccess: (book) {
               if (book != null) books.add(book);
             },

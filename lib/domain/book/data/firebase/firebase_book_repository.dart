@@ -4,17 +4,15 @@ import 'package:books_genie/domain/book/data/firebase/models/firebase_user_book_
 import 'package:books_genie/domain/book/utils/enums/books_collection.dart';
 import 'package:books_genie/support/result/result.dart';
 
-import 'firebase_with_google_books_api_book_data_source.dart';
-
 class FirebaseBookRepository extends BaseBookRepositoryWithGoogleBooksApi<
     FirebaseBook, FirebaseUserBookCollection> {
-  FirebaseBookRepository()
-      : super(const FirebaseWithGoogleBooksApiBookDataSource());
+  FirebaseBookRepository(super.dataSource);
 
   List<FirebaseBook> _libraryBooks = [];
 
   @override
   List<FirebaseBook> get libraryBooks => _libraryBooks;
+
   @override
   set libraryBooks(List<FirebaseBook> value) {
     _libraryBooks = value;
@@ -40,8 +38,7 @@ class FirebaseBookRepository extends BaseBookRepositoryWithGoogleBooksApi<
   }
 
   @override
-  FutureResult<List<FirebaseBook>> searchFor(List<String> terms) {
-    // TODO: implement searchFor
-    throw UnimplementedError();
+  FutureResult<List<FirebaseBook>> searchFor(String term) async {
+    return await dataSource.searchFor(term);
   }
 }

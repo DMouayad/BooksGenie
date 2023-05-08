@@ -212,3 +212,35 @@ mixin _AddingNewBooksHelper {
     }
   }
 }
+
+class LibrarySearchRequested extends LibraryEvent {
+  LibrarySearchRequested(this.searchTerm);
+  final String searchTerm;
+
+  @override
+  Future<void> handle(
+    BaseBookRepository repository,
+    LibraryState state,
+    Emitter<LibraryState> emit,
+  ) async {
+    emit(const LibrarySearchInProgress());
+    (await repository.searchFor(searchTerm)).fold(
+      ifSuccess: (result) =>
+          emit((state as LibraryBooksState).copyWith(searchResults: result)),
+    );
+  }
+}
+
+class ResetLibrarySearchRequested extends LibraryEvent {
+  ResetLibrarySearchRequested();
+
+  @override
+  Future<void> handle(
+    BaseBookRepository repository,
+    LibraryState state,
+    Emitter<LibraryState> emit,
+  ) async {
+    emit((state is LibraryBooksState ? state : const LibraryBooksState())
+        .copyWith(searchResults: []));
+  }
+}

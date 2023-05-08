@@ -110,13 +110,18 @@ const BookInfoModelSchema = Schema(
       name: r'reviewsLinkString',
       type: IsarType.string,
     ),
-    r'subtitle': PropertySchema(
+    r'smallThumbnailImageLink': PropertySchema(
       id: 19,
+      name: r'smallThumbnailImageLink',
+      type: IsarType.string,
+    ),
+    r'subtitle': PropertySchema(
+      id: 20,
       name: r'subtitle',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 20,
+      id: 21,
       name: r'title',
       type: IsarType.string,
     )
@@ -175,6 +180,12 @@ int _bookInfoModelEstimateSize(
   bytesCount += 3 + object.publisher.length * 3;
   bytesCount += 3 + object.rawPublishedDate.length * 3;
   bytesCount += 3 + object.reviewsLinkString.length * 3;
+  {
+    final value = object.smallThumbnailImageLink;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.subtitle.length * 3;
   bytesCount += 3 + object.title.length * 3;
   return bytesCount;
@@ -215,8 +226,9 @@ void _bookInfoModelSerialize(
   writer.writeLong(offsets[16], object.ratingsCount);
   writer.writeString(offsets[17], object.rawPublishedDate);
   writer.writeString(offsets[18], object.reviewsLinkString);
-  writer.writeString(offsets[19], object.subtitle);
-  writer.writeString(offsets[20], object.title);
+  writer.writeString(offsets[19], object.smallThumbnailImageLink);
+  writer.writeString(offsets[20], object.subtitle);
+  writer.writeString(offsets[21], object.title);
 }
 
 BookInfoModel _bookInfoModelDeserialize(
@@ -256,8 +268,8 @@ BookInfoModel _bookInfoModelDeserialize(
     ratingsCount: reader.readLongOrNull(offsets[16]) ?? 0,
     rawPublishedDate: reader.readStringOrNull(offsets[17]) ?? "",
     reviewsLinkString: reader.readStringOrNull(offsets[18]) ?? "",
-    subtitle: reader.readStringOrNull(offsets[19]) ?? "",
-    title: reader.readStringOrNull(offsets[20]) ?? "",
+    subtitle: reader.readStringOrNull(offsets[20]) ?? "",
+    title: reader.readStringOrNull(offsets[21]) ?? "",
   );
   return object;
 }
@@ -320,8 +332,10 @@ P _bookInfoModelDeserializeProp<P>(
     case 18:
       return (reader.readStringOrNull(offset) ?? "") as P;
     case 19:
-      return (reader.readStringOrNull(offset) ?? "") as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 20:
+      return (reader.readStringOrNull(offset) ?? "") as P;
+    case 21:
       return (reader.readStringOrNull(offset) ?? "") as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2623,6 +2637,162 @@ extension BookInfoModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'reviewsLinkString',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'smallThumbnailImageLink',
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'smallThumbnailImageLink',
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'smallThumbnailImageLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'smallThumbnailImageLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'smallThumbnailImageLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'smallThumbnailImageLink',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'smallThumbnailImageLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'smallThumbnailImageLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkContains(String value,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'smallThumbnailImageLink',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkMatches(String pattern,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'smallThumbnailImageLink',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'smallThumbnailImageLink',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      smallThumbnailImageLinkIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'smallThumbnailImageLink',
         value: '',
       ));
     });

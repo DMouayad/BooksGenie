@@ -35,6 +35,7 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
           controller: scrollController,
           slivers: [
             CustomAppbar(
+              expandedHeight: context.appBarExpandedHeight,
               searchHint: "Search in your library",
               searchEnabled: state is AuthHasLoggedInUser,
               titleText: "My collections",

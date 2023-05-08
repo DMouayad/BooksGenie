@@ -27,7 +27,7 @@ class FirebaseBookDataSource
   }
 
   @override
-  FutureResult<FirebaseBook?> getByGoogleBooksId(String id) async {
+  FutureResult<FirebaseBook?> getById(String id) async {
     return await _handleDocRequest(_books.doc(id));
   }
 
@@ -99,7 +99,7 @@ class FirebaseBookDataSource
   @override
   FutureResult<FirebaseBook> saveBook(FirebaseBook book) async {
     return await Result.fromAsync(() async {
-      await _books.doc(book.googleBookId).set(book);
+      await _books.doc(book.id).set(book);
       return book;
     });
   }
@@ -117,7 +117,7 @@ class FirebaseBookDataSource
   }
 
   @override
-  FutureResult<List<FirebaseBook>> searchFor(List<String> terms) {
+  FutureResult<List<FirebaseBook>> searchFor(String term) {
     // TODO: implement searchFor
     throw UnimplementedError();
   }

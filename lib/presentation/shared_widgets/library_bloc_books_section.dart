@@ -61,21 +61,6 @@ class LibraryBlocBooksSection<errorStateType extends LibraryErrorState>
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  // trailing: TextButton(
-                  //   child: const Text('ADD'),
-                  //   onPressed: () {
-                  //     showBottomSheet(
-                  //         context: context,
-                  //         elevation: 10,
-                  //         backgroundColor: context.colorScheme.primaryContainer,
-                  //         constraints: BoxConstraints(
-                  //           maxHeight: context.screenHeight * .8,
-                  //         ),
-                  //         builder: (context) {
-                  //           return Container();
-                  //         });
-                  //   },
-                  // ),
                 ),
               );
             }
