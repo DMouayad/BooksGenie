@@ -1,0 +1,80 @@
+workflows:
+  android-release-workflow:
+    name: Android Workflow
+    max_build_duration: 120
+    environment:
+      android_signing:
+        - booksGenie_android_key
+      vars:
+        PACKAGE_NAME: "io.codemagic.fluttersample"
+      flutter: stable
+      groups:
+        - books_genie
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Flutter analyze
+        script: |
+          flutter analyze
+      - name: Build APK with Flutter
+        script: |
+          flutter build apk --split-per-abi --release
+    artifacts:
+      - build/**/outputs/**/*.apk
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
+
+
+  windows-release-workflow:
+    name: Windows Workflow
+    environment:
+      flutter: stable
+    scripts:
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Flutter analyze
+        script: |
+          flutter analyze
+      - name: Build Flutter Windows App
+        script: |
+          flutter config --enable-windows-desktop
+          flutter build windows --release
+          cd build/windows/runner/Release
+      - name: Create package
+        script: |
+          flutter pub run msix:create
+    artifacts:
+      - build/windows/**/*.msix
+environment:
+  vars:
+    GITHUB_TOKEN
+  groups:
+    - books_genie
+triggering:
+  events:
+    - tag
+  branch_patterns:
+    - pattern: '*'
+      include: true
+      source: true
+scripts:
+  - name: Publish to GitHub
+    script: |
+      #!/usr/bin/env zsh
+
+      # Publish only for tag builds
+      if [ -z ${CM_TAG} ]; then
+        echo "Not a tag build, will not publish GitHub release"
+        exit 0
+      fi
+
+      gh release create "${CM_TAG}" \
+        --title "<Your Application Name> ${CM_TAG}" \
+        --notes-file changelog.md \
+        path/to/build-artifact.ipa \
+        path/to/build-artifact.apk
