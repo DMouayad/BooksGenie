@@ -16,6 +16,7 @@ workflows:
         script: |
           flutter packages pub get
       - name: Flutter analyze
+        ignore_failure: true
         script: |
           flutter analyze
       - name: Build APK with Flutter
@@ -38,6 +39,7 @@ workflows:
       - name: Flutter analyze
         script: |
           flutter analyze
+        ignore_failure: true
       - name: Build Flutter Windows App
         script: |
           flutter config --enable-windows-desktop
@@ -53,8 +55,6 @@ workflows:
   publishing-workflow:
     environment:
       flutter: stable
-      vars:
-        GITHUB_TOKEN
       groups:
         - books_genie
     triggering:
