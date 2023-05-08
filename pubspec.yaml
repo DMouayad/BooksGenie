@@ -76,9 +76,8 @@ flutter:
 
 msix_config:
     display_name: BooksGenie
-    publisher_display_name: Mouayad_Alhamwi
-    identity_name: d_mouayad.books_genie
+    publisher_display_name: Mouayad-Alhamwi
+    identity_name: mouayad.booksgenie
     publisher:
-    msix_version: 1.0.0.0
-    logo_path: ./assets/icons/<icon_tran.png>
-    store: true
+    msix_version: 1.0.0.1
+    logo_path: ./assets/icons/icon_tran.png

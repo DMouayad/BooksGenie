@@ -7,19 +7,17 @@
   <summary><b>Table of Contents</b></summary>
   
 - [About](#about)
-- [Demo](#demo)
   - [Screenshots](#screenshots)
-  - [Download](#download)
+- [Download](#download)
 - [Built-With](#built-with)
 - [Documentation](#documentation)
   - [System Design \& Architecture](#system-design--architecture)
   - [Diagrams](#diagrams)
   - [Features](#features)
 - [Project Status](#project-status)
-- [Getting Started](#getting-started)
+- [Build From Source](#build-from-source)
   - [Prerequisites](#prerequisites)
     - [Setup](#setup)
-    - [Usage](#usage)
 - [License](#license)
 </details>
 
@@ -31,18 +29,16 @@
 - An easy way to keep track of your favorite books and novels.
 - Designed with a beautiful, engaging and minimal UI.  
 
-## Demo
-
 ### Screenshots
 
 ![app screenshots](assets/screenshots.png)
 
-### Download
+## Download
 
 To preview the app, you can download it for your device OS from:
  <p align="center" style="align-items:center">
  <a href="https://github.com/DMouayad/BooksGenie/releases/tag/V1.0.0" rel="GitHub Releases">
- <img width="100" height="100" src="https://telegra.ph/file/21bb2cc648561f192cea4.png"></a>
+ <img width="150" height="150" src="assets/github-white.png"></a>
 </p>
 
 ## Built-With
@@ -120,7 +116,7 @@ collections.
 
 - This project is a **work-in-progress**.
 
-## Getting Started
+## Build From Source
 
 ### Prerequisites
 
@@ -141,9 +137,7 @@ collections.
 - `cd path_of_project_folder`
 - `flutter pub get`
 
-#### Usage
-
-You can run the app using:
+#### Running the app
 
 **Option 1**
 
