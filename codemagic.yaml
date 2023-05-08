@@ -8,8 +8,6 @@ workflows:
       vars:
         PACKAGE_NAME: "io.codemagic.fluttersample"
       flutter: stable
-      groups:
-        - books_genie
     scripts:
       - name: Set up local.properties
         script: |
@@ -50,31 +48,33 @@ workflows:
           flutter pub run msix:create
     artifacts:
       - build/windows/**/*.msix
-environment:
-  vars:
-    GITHUB_TOKEN
-  groups:
-    - books_genie
-triggering:
-  events:
-    - tag
-  branch_patterns:
-    - pattern: '*'
-      include: true
-      source: true
-scripts:
-  - name: Publish to GitHub
-    script: |
-      #!/usr/bin/env zsh
 
-      # Publish only for tag builds
-      if [ -z ${CM_TAG} ]; then
-        echo "Not a tag build, will not publish GitHub release"
-        exit 0
-      fi
 
-      gh release create "${CM_TAG}" \
-        --title "<Your Application Name> ${CM_TAG}" \
-        --notes-file changelog.md \
-        path/to/build-artifact.ipa \
-        path/to/build-artifact.apk
+  publishing-workflow:
+    environment:
+      flutter: stable
+      vars:
+        GITHUB_TOKEN
+      groups:
+        - books_genie
+    triggering:
+      events:
+        - tag
+      cancel_previous_builds: true
+      branch_patterns:
+        - pattern: '*'
+          include: true
+          source: true
+    scripts:
+      - name: Publish to GitHub
+        script: |
+          #!/usr/bin/env zsh
+          if [ -z ${CM_TAG} ]; then
+           echo "Not a tag build, will not publish GitHub release"
+          exit 0
+          fi
+
+          gh release create "${CM_TAG}" \
+          --title "BooksGenie ${CM_TAG}" \
+          build/**/outputs/**/*.apk \
+          build/windows/**/*.msix
