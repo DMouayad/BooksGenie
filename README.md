@@ -1,10 +1,11 @@
 <div align="center">
 <img src="/assets/app%20name%20cover.png" alt="App name cover"/>
 </div>
-
-## Table of Contents
-
-- [Table of Contents](#table-of-contents)
+<div align="center"><h2><i>Books Genie</i></h2></div>
+<br/><br/>
+<details>
+  <summary><b>Table of Contents</b></summary>
+  
 - [About](#about)
 - [Demo](#demo)
   - [Screenshots](#screenshots)
@@ -12,6 +13,7 @@
 - [Built-With](#built-with)
 - [Documentation](#documentation)
   - [System Design \& Architecture](#system-design--architecture)
+  - [Diagrams](#diagrams)
   - [Features](#features)
 - [Project Status](#project-status)
 - [Getting Started](#getting-started)
@@ -19,6 +21,7 @@
     - [Setup](#setup)
     - [Usage](#usage)
 - [License](#license)
+</details>
 
 ## About
 
@@ -61,6 +64,29 @@ To preview the app, you can download it for your device OS from:
 - The design of this app is a custom combination of *Clean Architecture* and *DDD*.
 - Using this approach, it was possible to allow the user to dynamically change the way to save his books preferences and
 collections.
+
+### Diagrams
+
+#### C4 model 
+
+<details>  
+  <summary>view</summary>
+
+| System Context Diagram|
+| -------------- |
+| ![system context diagram](assets/diagrams/system.png)|
+
+| Container Diagram |
+| -------------- |
+| ![Container diagram](assets/diagrams/container.png)|
+
+| Component Diagram |
+| -------------- |
+| ![Component diagram](assets/diagrams/component.png)|
+
+</details>
+
+- open in [app.diagrams](https://shorturl.at/aepqK)
 
 ### Features
 
