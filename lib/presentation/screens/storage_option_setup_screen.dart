@@ -16,7 +16,7 @@ class StorageOptionSetupScreen extends StatefulWidget {
 }
 
 class _StorageOptionSetupScreenState extends State<StorageOptionSetupScreen> {
-  StorageOption selectedOption = StorageOption.online;
+  StorageOption selectedOption = StorageOption.cloud;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -72,18 +72,19 @@ class _StorageOptionSetupScreenState extends State<StorageOptionSetupScreen> {
                     ),
                     child: Flex(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       direction: Axis.horizontal,
                       children: [
                         Flexible(
                           child: _OptionCard(
-                            selected: selectedOption == StorageOption.online,
+                            selected: selectedOption.withCloud,
                             iconData: FontAwesomeIcons.cloudArrowUp,
-                            title: StorageOption.online.name,
+                            title: StorageOption.cloud.name,
                             description: const [
                               "Stored securely in the cloud.",
                               "Will not be lost if you uninstall the application."
                             ],
-                            onPressed: () => setOption(StorageOption.online),
+                            onPressed: () => setOption(StorageOption.cloud),
                           ),
                         ),
                         SizedBox(
@@ -91,18 +92,25 @@ class _StorageOptionSetupScreenState extends State<StorageOptionSetupScreen> {
                         ),
                         Flexible(
                           child: _OptionCard(
-                            title: StorageOption.offline.name,
+                            title: StorageOption.local.name,
                             iconData: FontAwesomeIcons.toggleOff,
-                            selected: selectedOption == StorageOption.offline,
+                            selected: selectedOption.withLocal,
                             description: const [
                               'Can be accessed on this device only.',
                               'Wil be deleted with the application.'
                             ],
-                            onPressed: () => setOption(StorageOption.offline),
+                            onPressed: () => setOption(StorageOption.local),
                           ),
                         ),
                       ],
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Text(
+                    'Tip: tap on a card to enable/disable that option',
+                    style: context.textTheme.bodySmall,
                   ),
                 ),
                 if (!context.isLandscapeMobile && context.screenHeight > 850)
@@ -122,7 +130,13 @@ class _StorageOptionSetupScreenState extends State<StorageOptionSetupScreen> {
 
   setOption(StorageOption option) {
     setState(() {
-      selectedOption = option;
+      if (selectedOption == option) return;
+      if (selectedOption == StorageOption.localAndCloud) {
+        selectedOption =
+            option.isLocal ? StorageOption.cloud : StorageOption.local;
+      } else {
+        selectedOption = StorageOption.localAndCloud;
+      }
     });
   }
 }

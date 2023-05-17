@@ -13,25 +13,22 @@ class RecommendedBooksSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LibraryBlocBooksSection<FailedToLoadRecommendedBooks>(
+    return LibraryBlocBooksSection(
       fadeAnimation: fadeAnimation,
       slideAnimation: slideAnimation,
       title: 'RECOMMENDED BOOKS',
       eventToRequestOnRetry: const FetchRecommendedBooksRequested(),
       buildWhen: (prev, next) {
-        return [FailedToLoadRecommendedBooks, LoadingRecommendedBooks]
-                .contains(next.runtimeType) ||
-            (next is LibraryBooksState &&
-                (prev is LibraryBooksState
-                    ? prev.explorePageBooks.recommendedBooks !=
-                        next.explorePageBooks.recommendedBooks
-                    : true));
+        return (next.loadingState is LoadingRecommendedBooks) ||
+            (next.errorState is FailedToLoadRecommendedBooks) ||
+            (prev.books.explorePageBooks.recommendedBooks !=
+                next.books.explorePageBooks.recommendedBooks);
       },
       booksBuilder: (bloc, state) {
-        if (state is LibraryBooksState) {
-          return state.explorePageBooks.recommendedBooks;
+        if (state.loadingState is LoadingRecommendedBooks) {
+          return null;
         }
-        return null;
+        return state.books.explorePageBooks.recommendedBooks;
       },
     );
   }

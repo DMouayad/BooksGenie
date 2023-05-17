@@ -1,6 +1,5 @@
 import 'package:books_genie/domain/book/base/entities/base_book.dart';
 import 'package:books_genie/presentation/screens/book_details/components/favorite_button.dart';
-import 'package:books_genie/presentation/screens/book_details/components/reading_status_section.dart';
 import 'package:books_genie/support/services/url_launcher_service.dart';
 import 'package:books_genie/support/utils/context_extensions.dart';
 import 'package:flutter/cupertino.dart';
@@ -87,11 +86,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen>
                             averageRating: widget.book!.info.averageRating,
                             ratingsCount: widget.book!.info.ratingsCount,
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 10),
                           _ButtonsBar(widget.book!),
-                          const SizedBox(height: 20),
-                          ReadingStatusSection(widget.book!),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 30),
                           AnimatedBuilder(
                             animation: scrollController,
                             builder: (BuildContext context, Widget? child) {
@@ -111,7 +108,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen>
                 ],
               ),
             Positioned(
-              bottom: 0,
+              bottom: 10,
               left: 20,
               right: 20,
               child: FadeSlideTransition(
@@ -137,40 +134,25 @@ class _ButtonsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buttonStyle = ButtonStyle(
-      foregroundColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.hovered) ||
-            states.contains(MaterialState.pressed)) {
-          return context.colorScheme.primary;
-        }
-        return context.colorScheme.onBackground;
-      }),
-    );
     return Container(
       decoration: BoxDecoration(
-        border: Border.symmetric(
-          horizontal: BorderSide(
-              width: .9,
-              color: context.isDarkMode ? Colors.white12 : Colors.black12),
-        ),
+        border: Border.all(
+            color: context.isDarkMode ? Colors.white12 : Colors.black12),
+        borderRadius: BorderRadius.circular(8),
       ),
       height: 54,
+      // padding: const EdgeInsets.symmetric(vertical: 3),
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: ButtonBar(
         alignment: MainAxisAlignment.spaceAround,
         children: [
-          FavoriteButton(
-            book,
-            style: buttonStyle,
-          ),
+          FavoriteButton(book),
           TextButton.icon(
-            style: buttonStyle,
             onPressed: () {},
             icon: const Icon(Icons.share_outlined),
             label: const Text("Share"),
           ),
           TextButton.icon(
-            style: buttonStyle,
             onPressed: () async {
               await UrlLauncherService.launchInExternalApp(
                   book.info.previewLink);

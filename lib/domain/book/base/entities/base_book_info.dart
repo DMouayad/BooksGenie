@@ -1,15 +1,17 @@
 import 'package:books_genie/support/utils/extensions.dart';
+import 'package:equatable/equatable.dart';
 
 import 'base_cover_image_link.dart';
 import 'base_industry_identifier.dart';
 
 abstract class BaseBookInfo<I extends BaseIndustryIdentifier,
-    C extends BaseCoverImageLink> {
+    C extends BaseCoverImageLink> with EquatableMixin {
   final List<String> authors;
   final double averageRating;
   final List<String> categories;
   final String contentVersion;
   final String description;
+
   Map<String, Uri> get imageLinks {
     return Map.fromEntries(
       coverImageLinks.map((e) => MapEntry(e.size.name, Uri.parse(e.url!))),
@@ -27,21 +29,23 @@ abstract class BaseBookInfo<I extends BaseIndustryIdentifier,
   }
 
   String? get thumbnailImageLink {
-    return coverImageLinks.firstWhereOrNull((element) {
-      return element.size == BookCoverSize.defaultThumbnail;
-    })?.url;
+    return (coverImageLinks.firstWhereOrNull((element) {
+              return [BookCoverSize.largeThumbnail].contains(element.size);
+            }) ??
+            (coverImageLinks.firstWhereOrNull((element) {
+              return [BookCoverSize.mediumThumbnail].contains(element.size);
+            })) ??
+            (coverImageLinks.firstWhereOrNull((element) {
+              return element.size == BookCoverSize.defaultThumbnail;
+            })))
+        ?.url;
   }
 
   final Uri? canonicalVolumeLink;
   final Uri? infoLink;
-  // final String canonicalVolumeLinkString;
-  // final String infoLinkString;
-  // final String previewLinkString;
-  // final String reviewsLinkString;
   final Uri? previewLink;
   final Uri? reviewsLink;
   final List<C> coverImageLinks;
-
   final List<I> industryIdentifiers;
   final String language;
   final String maturityRating;
@@ -132,51 +136,26 @@ abstract class BaseBookInfo<I extends BaseIndustryIdentifier,
   });
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is BaseBookInfo &&
-          runtimeType == other.runtimeType &&
-          authors == other.authors &&
-          averageRating == other.averageRating &&
-          canonicalVolumeLink == other.canonicalVolumeLink &&
-          categories == other.categories &&
-          contentVersion == other.contentVersion &&
-          description == other.description &&
-          coverImageLinks == other.coverImageLinks &&
-          industryIdentifiers == other.industryIdentifiers &&
-          infoLink == other.infoLink &&
-          language == other.language &&
-          maturityRating == other.maturityRating &&
-          pageCount == other.pageCount &&
-          previewLink == other.previewLink &&
-          publishedDate == other.publishedDate &&
-          publisher == other.publisher &&
-          ratingsCount == other.ratingsCount &&
-          rawPublishedDate == other.rawPublishedDate &&
-          subtitle == other.subtitle &&
-          title == other.title &&
-          reviewsLink == other.reviewsLink;
-
-  @override
-  int get hashCode =>
-      authors.hashCode ^
-      averageRating.hashCode ^
-      canonicalVolumeLink.hashCode ^
-      categories.hashCode ^
-      contentVersion.hashCode ^
-      description.hashCode ^
-      coverImageLinks.hashCode ^
-      industryIdentifiers.hashCode ^
-      infoLink.hashCode ^
-      language.hashCode ^
-      maturityRating.hashCode ^
-      pageCount.hashCode ^
-      previewLink.hashCode ^
-      publishedDate.hashCode ^
-      publisher.hashCode ^
-      ratingsCount.hashCode ^
-      rawPublishedDate.hashCode ^
-      subtitle.hashCode ^
-      reviewsLink.hashCode ^
-      title.hashCode;
+  List get props => [
+        authors,
+        averageRating,
+        canonicalVolumeLink,
+        categories,
+        contentVersion,
+        description,
+        coverImageLinks,
+        industryIdentifiers,
+        infoLink,
+        language,
+        maturityRating,
+        pageCount,
+        previewLink,
+        publishedDate,
+        publisher,
+        ratingsCount,
+        rawPublishedDate,
+        subtitle,
+        reviewsLink,
+        title
+      ];
 }

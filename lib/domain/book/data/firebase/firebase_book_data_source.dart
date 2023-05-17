@@ -32,13 +32,12 @@ class FirebaseBookDataSource
   }
 
   FutureResult<T?> _handleDocRequest<T>(DocumentReference<T> toRequest) async {
-    final result = await Result.fromStream<T?, AppError>((sink) async {
+    return await Result.fromStream<T?, AppError>((sink) async {
       toRequest.get().then(
             (docSnap) => sink.add(docSnap.data()),
             onError: (error) => sink.addError(error),
           );
     });
-    return result;
   }
 
   FutureResult<List<T>> _handleQueryRequest<T>(Query<T> toRequest) async {

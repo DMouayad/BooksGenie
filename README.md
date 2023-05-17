@@ -122,13 +122,13 @@ collections.
 
 - If you are new to Flutter, start with the [installation instruction](https://flutter.io/docs/get-started/install).
 
-- Flutter v3.7 & Dart v2.19 - or higher.
+- Flutter v3.10 & Dart v3.0 - or higher.
 
 - For running on *Windows*, please read the following [requirements](https://docs.flutter.dev/development/platform-integration/desktop#requirements).
 
 - Run the command `flutter doctor -v` in a terminal to make sure no issues are present.
 
-#### Setup
+### Setup
 
 **Step 1:** download or clone this repo.
 
@@ -137,7 +137,7 @@ collections.
 - `cd path_of_project_folder`
 - `flutter pub get`
 
-#### Running the app
+### Running the app
 
 **Option 1**
 
@@ -156,7 +156,7 @@ collections.
       flutter run -d ios
   ```  
 
-**Additional Info**
+**Run Additional Info**
 
 You can also specify the build mode of the app:
 

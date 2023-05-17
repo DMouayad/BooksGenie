@@ -8,8 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'error_list_tile.dart';
 
-class LibraryBlocBooksSection<errorStateType extends LibraryErrorState>
-    extends StatelessWidget {
+class LibraryBlocBooksSection extends StatelessWidget {
   final Animation<Offset>? slideAnimation;
   final Animation<double>? fadeAnimation;
   final String title;
@@ -68,14 +67,14 @@ class LibraryBlocBooksSection<errorStateType extends LibraryErrorState>
               books: books.take(15).toList(),
             );
           }
-          if (state is errorStateType) {
+          if (state.errorState != null) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: SizedBox(
                 height: 70,
                 child: ErrorListTile(
                   title: "Loading failed!",
-                  error: state.error,
+                  error: state.errorState!.error,
                   onRetry: () =>
                       context.read<LibraryBloc>().add(eventToRequestOnRetry),
                 ),

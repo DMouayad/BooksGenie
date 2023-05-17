@@ -30,7 +30,7 @@ class PreferencesState {
   }
   @override
   String toString() {
-    return '$runtimeType: themeMode: $themeMode, locale: $locale, storage option: ${storageOption}';
+    return '$runtimeType: themeMode: $themeMode, locale: $locale, storage option: $storageOption';
   }
 
   PreferencesState copyWith({
@@ -46,4 +46,13 @@ class PreferencesState {
   }
 }
 
-enum StorageOption { offline, online }
+enum StorageOption {
+  local,
+  cloud,
+  localAndCloud;
+
+  bool get withLocal => this == local || this == localAndCloud;
+  bool get isLocal => this == local;
+  bool get withCloud => this == cloud || this == localAndCloud;
+  bool get isCloud => this == cloud;
+}

@@ -7,7 +7,7 @@ part of 'book_info_model.dart';
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 const BookInfoModelSchema = Schema(
   name: r'BookInfoModel',
@@ -115,13 +115,18 @@ const BookInfoModelSchema = Schema(
       name: r'smallThumbnailImageLink',
       type: IsarType.string,
     ),
-    r'subtitle': PropertySchema(
+    r'stringify': PropertySchema(
       id: 20,
+      name: r'stringify',
+      type: IsarType.bool,
+    ),
+    r'subtitle': PropertySchema(
+      id: 21,
       name: r'subtitle',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 21,
+      id: 22,
       name: r'title',
       type: IsarType.string,
     )
@@ -227,8 +232,9 @@ void _bookInfoModelSerialize(
   writer.writeString(offsets[17], object.rawPublishedDate);
   writer.writeString(offsets[18], object.reviewsLinkString);
   writer.writeString(offsets[19], object.smallThumbnailImageLink);
-  writer.writeString(offsets[20], object.subtitle);
-  writer.writeString(offsets[21], object.title);
+  writer.writeBool(offsets[20], object.stringify);
+  writer.writeString(offsets[21], object.subtitle);
+  writer.writeString(offsets[22], object.title);
 }
 
 BookInfoModel _bookInfoModelDeserialize(
@@ -268,8 +274,8 @@ BookInfoModel _bookInfoModelDeserialize(
     ratingsCount: reader.readLongOrNull(offsets[16]) ?? 0,
     rawPublishedDate: reader.readStringOrNull(offsets[17]) ?? "",
     reviewsLinkString: reader.readStringOrNull(offsets[18]) ?? "",
-    subtitle: reader.readStringOrNull(offsets[20]) ?? "",
-    title: reader.readStringOrNull(offsets[21]) ?? "",
+    subtitle: reader.readStringOrNull(offsets[21]) ?? "",
+    title: reader.readStringOrNull(offsets[22]) ?? "",
   );
   return object;
 }
@@ -334,8 +340,10 @@ P _bookInfoModelDeserializeProp<P>(
     case 19:
       return (reader.readStringOrNull(offset)) as P;
     case 20:
-      return (reader.readStringOrNull(offset) ?? "") as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 21:
+      return (reader.readStringOrNull(offset) ?? "") as P;
+    case 22:
       return (reader.readStringOrNull(offset) ?? "") as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2794,6 +2802,34 @@ extension BookInfoModelQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'smallThumbnailImageLink',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      stringifyIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'stringify',
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      stringifyIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'stringify',
+      ));
+    });
+  }
+
+  QueryBuilder<BookInfoModel, BookInfoModel, QAfterFilterCondition>
+      stringifyEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'stringify',
+        value: value,
       ));
     });
   }

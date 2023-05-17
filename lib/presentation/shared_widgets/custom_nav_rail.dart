@@ -35,8 +35,11 @@ class _CustomNavRailState extends State<CustomNavRail> {
       useIndicator: false,
       leading: Image.asset(
         context.isDarkMode
-            ? 'assets/icons/dark/88.png'
+            ? 'assets/icons/dark/216.png'
             : 'assets/icons/light/88.png',
+        fit: BoxFit.cover,
+        width: 130,
+        height: 100,
       ),
       trailing: Padding(
         padding: EdgeInsets.only(
@@ -55,6 +58,7 @@ class _CustomNavRailState extends State<CustomNavRail> {
     return NavigationRailDestination(
       label: Text(label),
       icon: Icon(iconData),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       selectedIcon: GradientIcon(
         icon: iconData,
         size: 22,

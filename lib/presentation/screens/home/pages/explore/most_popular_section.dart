@@ -14,26 +14,23 @@ class MostPopularSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LibraryBlocBooksSection<FailedToLoadMostPopularBooks>(
+    return LibraryBlocBooksSection(
       fadeAnimation: fadeAnimation,
       slideAnimation: slideAnimation,
       title: 'Most popular books',
       animate: context.screenHeight > 600,
       eventToRequestOnRetry: const FetchMostPopularBooksRequested(),
       buildWhen: (prev, next) {
-        return [FailedToLoadMostPopularBooks, LoadingMostPopularBooks]
-                .contains(next.runtimeType) ||
-            (next is LibraryBooksState &&
-                (prev is LibraryBooksState
-                    ? prev.explorePageBooks.mostPopularBooks !=
-                        next.explorePageBooks.mostPopularBooks
-                    : true));
+        return (next.loadingState is LoadingMostPopularBooks) ||
+            (next.errorState is FailedToLoadMostPopularBooks) ||
+            (prev.books.explorePageBooks.mostPopularBooks !=
+                next.books.explorePageBooks.mostPopularBooks);
       },
       booksBuilder: (bloc, state) {
-        if (state is LibraryBooksState) {
-          return state.explorePageBooks.mostPopularBooks;
+        if (state.loadingState is LoadingMostPopularBooks) {
+          return null;
         }
-        return null;
+        return state.books.explorePageBooks.mostPopularBooks;
       },
     );
   }

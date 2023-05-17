@@ -12,7 +12,8 @@ part 'book_info_model.g.dart';
   'thumbnailImageLink',
   'infoLink',
   'previewLink',
-  'reviewsLink'
+  'reviewsLink',
+  'props'
 })
 class BookInfoModel
     extends BaseBookInfo<IndustryIdentifierModel, CoverImageLinkModel> {

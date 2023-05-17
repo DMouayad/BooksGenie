@@ -1,4 +1,4 @@
-import 'package:books_genie/presentation/helpers/showProfileDialog.dart';
+import 'package:books_genie/presentation/helpers/show_profile_dialog.dart';
 import 'package:books_genie/support/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

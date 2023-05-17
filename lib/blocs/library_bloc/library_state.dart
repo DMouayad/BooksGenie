@@ -1,22 +1,73 @@
 part of 'library_bloc.dart';
 
-@immutable
-abstract class LibraryState extends Equatable {
-  const LibraryState();
+class LibraryState extends Equatable {
+  final LibraryBooks books;
+  final LibraryError? errorState;
+  final LibraryLoadingState? loadingState;
+  final LibraryLoadingCompletedState? loadingCompletedState;
+  final List<BaseBook> searchResults;
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props =>
+      [books, errorState, loadingState, loadingCompletedState, searchResults];
+
+  const LibraryState({
+    this.books = const LibraryBooks(),
+    this.errorState,
+    this.loadingState,
+    this.loadingCompletedState,
+    this.searchResults = const [],
+  });
+
+  LibraryState copyWithBooks({
+    List<BaseUserBookCollection>? userBookCollections,
+    ExplorePageBooks? explorePageBooks,
+  }) {
+    return LibraryState(
+      errorState: errorState,
+      loadingState: loadingState,
+      books: books.copyWith(
+        userBookCollections: userBookCollections,
+        explorePageBooks: explorePageBooks,
+      ),
+    );
+  }
+
+  LibraryState copyWith({
+    LibraryBooks? books,
+    LibraryError? errorState,
+    LibraryLoadingState? loadingState,
+    LibraryLoadingCompletedState? loadingCompletedState,
+    List<BaseBook>? searchResults,
+  }) {
+    return LibraryState(
+      books: books ?? this.books,
+      errorState: errorState ?? this.errorState,
+      loadingState: loadingState ?? this.loadingState,
+      loadingCompletedState:
+          loadingCompletedState ?? this.loadingCompletedState,
+      searchResults: searchResults ?? this.searchResults,
+    );
+  }
+
+  @override
+  String toString() {
+    return '''$runtimeType: (
+    books: $books,
+    error state: $errorState,
+    loading state: $loadingState,
+    )''';
+  }
 }
 
-class LibraryBooksState extends LibraryState {
-  const LibraryBooksState({
+class LibraryBooks extends Equatable {
+  const LibraryBooks({
     this.userBookCollections = const [],
-    this.searchResults = const [],
     this.explorePageBooks = const ExplorePageBooks(),
   });
 
   final List<BaseUserBookCollection> userBookCollections;
   final ExplorePageBooks explorePageBooks;
-  final List<BaseBook> searchResults;
 
   bool getBookIsFavorite(BaseBook book) {
     return favoriteBooksIds.contains(book.id);
@@ -46,8 +97,8 @@ class LibraryBooksState extends LibraryState {
   }
 
   @override
-  List<Object?> get props =>
-      [userBookCollections, explorePageBooks, searchResults];
+  List<Object?> get props => [userBookCollections, explorePageBooks];
+
   @override
   String toString() {
     return '''
@@ -60,7 +111,7 @@ class LibraryBooksState extends LibraryState {
           )''';
   }
 
-  LibraryBooksState withAddedToUserBookCollections(
+  LibraryBooks withAddedToUserBookCollections(
       List<BaseUserBookCollection> newBookCollections) {
     return copyWith(
         userBookCollections: <BaseUserBookCollection>{
@@ -69,15 +120,13 @@ class LibraryBooksState extends LibraryState {
     }.toList());
   }
 
-  LibraryBooksState copyWith({
+  LibraryBooks copyWith({
     List<BaseUserBookCollection>? userBookCollections,
     ExplorePageBooks? explorePageBooks,
-    List<BaseBook>? searchResults,
   }) {
-    return LibraryBooksState(
+    return LibraryBooks(
       userBookCollections: userBookCollections ?? this.userBookCollections,
       explorePageBooks: explorePageBooks ?? this.explorePageBooks,
-      searchResults: searchResults ?? this.searchResults,
     );
   }
 }
@@ -110,84 +159,78 @@ class ExplorePageBooks extends Equatable {
   }
 }
 
-class LibraryInitial extends LibraryState {
-  const LibraryInitial();
+abstract class LibraryLoadingState {
+  const LibraryLoadingState();
 }
 
-class LoadingMostPopularBooks extends LibraryState {
+abstract class LibraryLoadingCompletedState {
+  const LibraryLoadingCompletedState();
+}
+
+class LoadingMostPopularBooks extends LibraryLoadingState {
   const LoadingMostPopularBooks();
 }
 
-class LoadingRecommendedBooks extends LibraryState {
+class LoadingRecommendedBooks extends LibraryLoadingState {
   const LoadingRecommendedBooks();
 }
 
-class LoadingReadingNowBooks extends LibraryState {
+class LoadingReadingNowBooks extends LibraryLoadingState {
   const LoadingReadingNowBooks();
 }
 
-class LoadingCompletedReadingBooks extends LibraryState {
+class LoadingCompletedReadingBooks extends LibraryLoadingState {
   const LoadingCompletedReadingBooks();
 }
 
-class LoadingFavoriteBooks extends LibraryState {
+class LoadingFavoriteBooks extends LibraryLoadingState {
   const LoadingFavoriteBooks();
 }
 
-abstract class LibraryErrorState extends LibraryState {
+abstract class LibraryError extends Equatable {
   final AppError error;
 
-  const LibraryErrorState(this.error);
+  const LibraryError(this.error);
   @override
   List<Object?> get props => [error];
 }
 
-class FailedToLoadRecommendedBooks extends LibraryErrorState {
+class FailedToLoadRecommendedBooks extends LibraryError {
   const FailedToLoadRecommendedBooks(super.error);
 }
 
-class FailedToLoadMostPopularBooks extends LibraryErrorState {
+class FailedToLoadMostPopularBooks extends LibraryError {
   const FailedToLoadMostPopularBooks(super.error);
 }
 
-class FailedToLoadReadingNowBooks extends LibraryErrorState {
+class FailedToLoadReadingNowBooks extends LibraryError {
   const FailedToLoadReadingNowBooks(super.error);
 }
 
-class FailedToLoadCompletedReadingBooks extends LibraryErrorState {
+class FailedToLoadCompletedReadingBooks extends LibraryError {
   const FailedToLoadCompletedReadingBooks(super.error);
 }
 
-class FailedToLoadFavoriteBooks extends LibraryErrorState {
+class FailedToLoadFavoriteBooks extends LibraryError {
   const FailedToLoadFavoriteBooks(super.error);
 }
 
-class FailedToAddBooksToUserCollection extends LibraryErrorState {
+class FailedToAddBooksToUserCollection extends LibraryError {
   const FailedToAddBooksToUserCollection(super.error);
 }
 
-class AddingBooksToUserCollectionInProgress extends LibraryState {
+class LibrarySearchFailed extends LibraryError {
+  const LibrarySearchFailed(super.error);
+}
+
+class AddingBooksToUserCollectionInProgress extends LibraryLoadingState {
   const AddingBooksToUserCollectionInProgress();
 }
 
-class AddingBooksToUserCollectionSuccess extends LibraryState {
+class AddingBooksToUserCollectionSuccess extends LibraryLoadingCompletedState {
   const AddingBooksToUserCollectionSuccess();
 }
 
-class LibrarySearchInProgress extends LibraryState {
+class LibrarySearchInProgress extends LibraryLoadingState {
   const LibrarySearchInProgress();
-}
-
-class LibrarySearchCompleted extends LibraryState {
-  final List<BaseBook> items;
-
-  const LibrarySearchCompleted(this.items);
-
-  @override
-  String toString() {
-    return '$runtimeType: {found: ${items.length} books}';
-  }
-
-  @override
-  List<Object?> get props => [items];
 }

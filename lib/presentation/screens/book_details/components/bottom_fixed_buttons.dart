@@ -58,7 +58,7 @@ class BottomFixedButtons extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    "Get this book (\$200)",
+                    "Get this book",
                     style: context.textTheme.titleMedium?.copyWith(
                       color: Colors.white,
                     ),

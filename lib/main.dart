@@ -48,8 +48,8 @@ Future<PreferencesCubit> setupPreferencesCubit() async {
       await DependenciesService.registerDependenciesForStorage(storageOption);
     }
   } else {
-    // Since Firebase does not support Windows, only offline storage is available
-    await preferencesCubit.setStorageOption(StorageOption.offline);
+    // Since Firebase does not support Windows, only offline/local storage is available
+    await preferencesCubit.setStorageOption(StorageOption.local);
   }
   return preferencesCubit;
 }

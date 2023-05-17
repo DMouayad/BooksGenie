@@ -7,22 +7,20 @@ class ReadingNowSection extends StatelessWidget {
   final int userId;
   @override
   Widget build(BuildContext context) {
-    return LibraryBlocBooksSection<FailedToLoadReadingNowBooks>(
+    return LibraryBlocBooksSection(
       title: 'READING NOW',
       eventToRequestOnRetry: FetchReadingNowBooksRequested(userId),
       buildWhen: (prev, next) {
-        return [
-          FailedToLoadReadingNowBooks,
-          LoadingReadingNowBooks,
-          LibraryBooksState
-        ].contains(next.runtimeType);
+        return next.loadingState is LoadingReadingNowBooks ||
+            next.errorState is FailedToLoadReadingNowBooks ||
+            next.books.readingNowBooksIds != prev.books.readingNowBooksIds;
       },
       showAddButtonOnEmpty: true,
       booksBuilder: (bloc, state) {
-        if (state is LibraryBooksState) {
-          return bloc.getUserBooksFrom(state.readingNowBooksIds);
+        if (state.loadingState is LoadingReadingNowBooks) {
+          return null;
         }
-        return null;
+        return bloc.getUserBooksFrom(state.books.readingNowBooksIds);
       },
     );
   }

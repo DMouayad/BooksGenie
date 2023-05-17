@@ -32,12 +32,13 @@ class _MyLibraryPageState extends State<MyLibraryPage> {
           next is AuthHasLoggedInUser || next is AuthHasNoLoggedInUser,
       builder: (context, state) {
         return CustomScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           controller: scrollController,
           slivers: [
             CustomAppbar(
               expandedHeight: context.appBarExpandedHeight,
-              searchHint: "Search in your library",
-              searchEnabled: state is AuthHasLoggedInUser,
+              // searchHint: "Search in your library",
+              // searchEnabled: state is AuthHasLoggedInUser,
               titleText: "My collections",
               animateComponentsOnInit: false,
               scrollController: scrollController,

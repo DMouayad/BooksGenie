@@ -3,19 +3,22 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class BaseUserBookCollection extends Equatable {
-  int? userId;
-  String? bookId;
-  List<BooksCollection> collections;
-  double? completionPercent;
+  final int? userId;
+  final String? bookId;
+  final List<BooksCollection> collections;
+  final double? completionPercent;
   String? get uid => shortHash('userId:$userId,bookId:$bookId');
-  BaseUserBookCollection({
+
+  const BaseUserBookCollection({
     this.userId,
     this.bookId,
     this.collections = const [],
     this.completionPercent,
   });
+
   @override
   bool? get stringify => true;
+
   @override
   List<Object?> get props => [userId, bookId, collections, completionPercent];
 }

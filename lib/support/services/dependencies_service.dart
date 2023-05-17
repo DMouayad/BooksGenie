@@ -13,15 +13,18 @@ import 'package:books_genie/domain/book/data/isar/models/book_model.dart';
 import 'package:books_genie/domain/book/data/isar/models/isar_user_book_collection.dart';
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DependenciesService {
   const DependenciesService();
 
   static Future<void> registerDependenciesForStorage(
-      StorageOption storageOption) async {
-    if (storageOption == StorageOption.offline) {
+    StorageOption storageOption,
+  ) async {
+    if (storageOption.withLocal) {
       await DependenciesService.registerIsarDependencies();
-    } else if (storageOption == StorageOption.online) {
+    }
+    if (storageOption.withCloud) {
       await DependenciesService.registerFirebaseDependencies();
     }
   }
@@ -30,6 +33,7 @@ class DependenciesService {
     GetIt.instance.registerSingletonAsync<Isar>(() async {
       return await Isar.open(
         [BookModelSchema, IsarUserBookCollectionSchema, IsarUserSchema],
+        directory: (await getApplicationDocumentsDirectory()).path,
       );
     });
     await GetIt.instance.isReady<Isar>().then((_) {

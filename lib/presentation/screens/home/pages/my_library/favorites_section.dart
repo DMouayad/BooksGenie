@@ -8,22 +8,20 @@ class FavoriteBooksSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LibraryBlocBooksSection<FailedToLoadFavoriteBooks>(
+    return LibraryBlocBooksSection(
       title: 'My Favorites',
       eventToRequestOnRetry: FetchFavoriteBooksRequested(userId),
       buildWhen: (prev, next) {
-        return [
-          FailedToLoadFavoriteBooks,
-          LoadingFavoriteBooks,
-          LibraryBooksState
-        ].contains(next.runtimeType);
+        return next.loadingState is LoadingFavoriteBooks ||
+            next.errorState is FailedToLoadFavoriteBooks ||
+            next.books.favoriteBooksIds != prev.books.favoriteBooksIds;
       },
       showAddButtonOnEmpty: true,
       booksBuilder: (bloc, state) {
-        if (state is LibraryBooksState) {
-          return bloc.getUserBooksFrom(state.favoriteBooksIds);
+        if (state.loadingState is LoadingFavoriteBooks) {
+          return null;
         }
-        return null;
+        return bloc.getUserBooksFrom(state.books.favoriteBooksIds);
       },
     );
   }

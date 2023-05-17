@@ -118,8 +118,6 @@ class _MobileList extends StatelessWidget {
                   final page = pageController.page!;
                   final d = index - page;
 
-                  final itemScale = max(SCALE_FRACTION,
-                      (FULL_SCALE - d.abs()) + pageController.viewportFraction);
                   if (index == page.floor() || index == page.floor() - 1) {
                     final double opacity =
                         min(1, 1 + (d + .7)).abs().toDouble();

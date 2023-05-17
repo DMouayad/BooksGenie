@@ -1,13 +1,14 @@
-import 'package:books_genie/domain/book/base/entities/base_book.dart';
+import 'dart:async';
+
+import 'package:books_genie/presentation/shared_widgets/search_box.dart';
+import 'package:books_genie/presentation/shared_widgets/search_results_card.dart';
 import 'package:flutter/material.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:books_genie/blocs/auth_bloc/auth_bloc.dart';
 import 'package:books_genie/blocs/library_bloc/library_bloc.dart';
 import 'package:books_genie/presentation/shared_widgets/custom_app_bar.dart';
 import 'package:books_genie/support/utils/context_extensions.dart';
-import 'package:go_router/go_router.dart';
 
 import 'categories_section.dart';
 import 'most_popular_section.dart';
@@ -24,6 +25,10 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage>
     with SingleTickerProviderStateMixin {
+  late final StreamController<String?> searchTermsStreamController;
+  Timer? _timer;
+  String? searchTerm;
+
   late final searchResultsListController = ScrollController();
   late final List<Widget> pageSections = [
     const SizedBox(height: 26),
@@ -43,120 +48,115 @@ class _ExplorePageState extends State<ExplorePage>
     ),
     const SizedBox(height: 14),
   ];
+  late final searchBoxTextController = TextEditingController();
 
   late final ScrollController scrollController = ScrollController();
-
   @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
+  void initState() {
+    searchTermsStreamController = StreamController();
+    searchTermsStreamController.stream.listen((event) {
+      if (searchTerm != event) {
+        searchTerm = event;
+        _timer ??= Timer(const Duration(milliseconds: 1000), () {
+          _timer = null;
+          _onSearch(searchTerm);
+        });
+      }
+    });
+
+    super.initState();
   }
 
   @override
+  void dispose() {
+    searchBoxTextController.dispose();
+    scrollController.dispose();
+    searchTermsStreamController.close();
+    super.dispose();
+  }
+
+  bool showSearchResultCard = false;
+  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        CustomScrollView(
-          controller: scrollController,
-          slivers: [
-            CustomAppbar(
-              title: const _WelcomeMessage(),
-              onSearch: (value) async {
-                if (value != null && value.isNotEmpty) {
-                  // Future.delayed(const Duration(seconds: 1), () {
-                  context
-                      .read<LibraryBloc>()
-                      .add(LibrarySearchRequested(value));
-                  // });
-                } else {
-                  context
-                      .read<LibraryBloc>()
-                      .add(ResetLibrarySearchRequested());
-                }
-              },
-              animateComponentsOnInit: true,
-              searchHint: "Enter the name of an author or book",
-              scrollController: scrollController,
-              searchBarSlideAnimation:
-                  widget.initAnimations?.searchBarInitAnimation,
-              searchBarFadeAnimation:
-                  widget.initAnimations?.searchBarFadeAnimation,
-              welcomeMessageSlideAnimation:
-                  widget.initAnimations?.welcomeMessageSlideAnimation,
-              welcomeMessageFadeAnimation:
-                  widget.initAnimations?.welcomeMessageFadeAnimation,
-              expandedHeight: context.appBarExpandedHeight,
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => pageSections[index],
-                childCount: pageSections.length,
-              ),
-            ),
-          ],
-        ),
-        BlocBuilder<LibraryBloc, LibraryState>(
-          builder: (context, state) {
-            final searchInProgress = state is LibrarySearchInProgress;
-            final searchResult =
-                state is LibraryBooksState ? state.searchResults : <BaseBook>[];
-            if (searchInProgress || searchResult.isNotEmpty) {
-              return AnimatedPositioned(
-                duration: const Duration(milliseconds: 400),
-                top: context.appBarExpandedHeight - 20,
-                left: 10,
-                right: 10,
-                child: SizedBox(
-                  height: context.screenHeight * .3,
-                  width: context.screenWidth,
-                  child: Card(
-                    elevation: 10,
-                    shape: const RoundedRectangleBorder(),
-                    color: context.colorScheme.background,
-                    child: searchInProgress
-                        ? const Center(
-                            child: CircularProgressIndicator.adaptive(),
-                          )
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            controller: searchResultsListController,
-                            itemCount: searchResult.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                hoverColor: context.colorScheme.surface,
-                                tileColor: context.colorScheme.background,
-                                onTap: () {
-                                  context.goNamed(
-                                    "book-details",
-                                    params: {"bookId": searchResult[index].id!},
-                                  );
-                                },
-                                leading: ExtendedImage.network(
-                                  searchResult[index].info.thumbnailImageLink ??
-                                      '',
-                                  width: 100,
-                                  height: 100,
-                                ),
-                                title: Text(
-                                  searchResult[index].info.title,
-                                  style: context.textTheme.titleMedium,
-                                ),
-                                subtitle: Text(
-                                  'by: ${searchResult[index].info.authors.join(', ')}',
-                                  style: context.textTheme.bodyMedium,
-                                ),
-                              );
-                            },
-                          ),
+    return BlocListener<LibraryBloc, LibraryState>(
+      listener: (context, state) {
+        if (state.loadingState is LibrarySearchInProgress ||
+            state.searchResults.isNotEmpty) {
+          setState(() => showSearchResultCard = true);
+        }
+      },
+      child: Stack(
+        children: [
+          NotificationListener<ScrollUpdateNotification>(
+            onNotification: (ScrollUpdateNotification notification) {
+              if (notification.dragDetails != null && showSearchResultCard) {
+                setState(() => showSearchResultCard = false);
+              }
+              return false;
+            },
+            child: CustomScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              controller: scrollController,
+              slivers: [
+                CustomAppbar(
+                  title: const _WelcomeMessage(),
+                  searchBox: SearchBox(
+                    controller: searchBoxTextController,
+                    searchHint: "Enter the name of an author or book",
+                    onSubmitted: _onSearch,
+                    onChanged: (value) {
+                      searchTermsStreamController.sink.add(value);
+                    },
+                  ),
+                  animateComponentsOnInit: true,
+                  scrollController: scrollController,
+                  searchBarSlideAnimation:
+                      widget.initAnimations?.searchBarInitAnimation,
+                  searchBarFadeAnimation:
+                      widget.initAnimations?.searchBarFadeAnimation,
+                  welcomeMessageSlideAnimation:
+                      widget.initAnimations?.welcomeMessageSlideAnimation,
+                  welcomeMessageFadeAnimation:
+                      widget.initAnimations?.welcomeMessageFadeAnimation,
+                  expandedHeight: context.appBarExpandedHeight,
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => pageSections[index],
+                    childCount: pageSections.length,
                   ),
                 ),
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        ),
-      ],
+                const SliverPadding(
+                    padding: EdgeInsets.symmetric(vertical: 26)),
+              ],
+            ),
+          ),
+          Positioned(
+            top: context.appBarExpandedHeight - 20,
+            left: 10,
+            right: 10,
+            child: AnimatedOpacity(
+              opacity: showSearchResultCard ? 1 : 0,
+              duration: const Duration(milliseconds: 400),
+              child: Visibility(
+                visible: showSearchResultCard,
+                child: BooksSearchResultsCard(
+                  scrollController: searchResultsListController,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
+  }
+
+  void _onSearch(String? term) {
+    if (term != null && term.isNotEmpty) {
+      context.read<LibraryBloc>().add(LibrarySearchRequested(term));
+    } else {
+      context.read<LibraryBloc>().add(ResetLibrarySearchRequested());
+    }
   }
 }
 
@@ -243,3 +243,6 @@ class ExplorePageInitAnimations {
     ));
   }
 }
+// class SearchHelper{
+//   final
+// }

@@ -15,28 +15,17 @@ class FavoriteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LibraryBloc, LibraryState>(
       buildWhen: (prev, next) =>
-          (next is LibraryBooksState &&
-              prev is LibraryBooksState &&
-              prev.favoriteBooksIds != next.favoriteBooksIds) ||
-          next is LibraryBooksState,
+          prev.books.favoriteBooksIds != next.books.favoriteBooksIds,
       builder: (context, state) {
-        bool? liked;
-        if (state is LibraryBooksState) {
-          liked = state.getBookIsFavorite(book);
-        }
+        bool liked = state.books.getBookIsFavorite(book);
         return TextButton.icon(
           style: style,
           onPressed: () => onPressed(context, liked, state),
-          icon: () {
-            if (state is LibraryBooksState) {
-              return Icon(
-                liked! ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-                color: liked ? Colors.red : null,
-              );
-            }
-            return const SizedBox.shrink();
-          }(),
-          label: Text(liked != null ? (liked ? "Unlike" : "Like") : ''),
+          icon: Icon(
+            liked ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+            color: liked ? Colors.red : null,
+          ),
+          label: Text(liked ? "Unlike" : "Like"),
         );
       },
     );
@@ -48,15 +37,11 @@ class FavoriteButton extends StatelessWidget {
 
     if (authState is AuthHasLoggedInUser) {
       context.read<LibraryBloc>().add(AddBookToUserCollectionRequested(
-            authState.currentUser.id!,
-            book,
-            isFavorite: newLikedState,
-            completionPercent: libraryState is LibraryBooksState
-                ? libraryState
-                    .getBookUserCollectionInfo(book)
-                    ?.completionPercent
-                : null,
-          ));
+          authState.currentUser.id!, book,
+          isFavorite: newLikedState,
+          completionPercent: libraryState.books
+              .getBookUserCollectionInfo(book)
+              ?.completionPercent));
     } else {
       showLoginRequiredDialog(
           context,

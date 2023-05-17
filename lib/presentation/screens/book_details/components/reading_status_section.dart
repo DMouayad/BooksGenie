@@ -22,18 +22,14 @@ class _ReadingStatusSectionState extends State<ReadingStatusSection> {
   Widget build(BuildContext context) {
     return BlocBuilder<LibraryBloc, LibraryState>(
       buildWhen: (prev, next) =>
-          (next is LibraryBooksState &&
-              prev is LibraryBooksState &&
-              prev.readingNowBooksIds != next.readingNowBooksIds) ||
-          next is LibraryBooksState,
+          prev.books.readingNowBooksIds != next.books.readingNowBooksIds,
       builder: (context, state) {
-        completedPercent = state is LibraryBooksState
-            ? state.getBookUserCollectionInfo(widget.book)?.completionPercent
-            : null;
+        completedPercent = state.books
+            .getBookUserCollectionInfo(widget.book)
+            ?.completionPercent;
 
         bool isReadingNow = completedPercent != null;
 
-        var count = widget.book.info.pageCount;
         return Container(
           // decoration: BoxDecoration(
           //   border: Border.all(
@@ -55,9 +51,8 @@ class _ReadingStatusSectionState extends State<ReadingStatusSection> {
                           .add(AddBookToUserCollectionRequested(
                             authState.currentUser.id!,
                             widget.book,
-                            isFavorite: state is LibraryBooksState
-                                ? state.getBookIsFavorite(widget.book)
-                                : false,
+                            isFavorite:
+                                state.books.getBookIsFavorite(widget.book),
                             completionPercent: isReadingNow ? null : 0.0,
                           ))
                       : showLoginRequiredDialog(
@@ -75,22 +70,6 @@ class _ReadingStatusSectionState extends State<ReadingStatusSection> {
                       : 'add to reading-now',
                 ),
               ),
-
-              // Slider(
-              //   min: 0,
-              //   max: 1,
-              //   value: sliderValue,
-              //   onChanged: (value) {
-              //     setState(() {
-              //       completedPercent = (value * 100).roundToDouble();
-              //       sliderValue =
-              //           (count * (completedPercent! / 100)) / count;
-              //     });
-              //   },
-              //   divisions: widget.book.info.pageCount,
-              //   label: completedPercent?.toString(),
-              // ),
-              // ),
             ],
           ),
         );

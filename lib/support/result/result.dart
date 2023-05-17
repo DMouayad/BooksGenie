@@ -142,16 +142,25 @@ abstract class Result<V extends Object?, E extends AppError> {
 }
 
 typedef FutureResult<R extends Object?> = Future<Result<R, AppError>>;
+typedef FutureResultOr<R extends Object?> = FutureOr<Result<R, AppError>>;
 typedef FutureVoidResult = Future<Result<VoidValue, AppError>>;
 typedef VoidResult = Result<VoidValue, AppError>;
 
-class EitherValue<R1 extends Object?, R2 extends Object?> {
+class EitherValue<R1 extends Object, R2 extends Object> {
   final R1? firstValue;
   final R2? secondValue;
   bool get isFirst => firstValue != null;
   bool get isSecond => !isFirst && secondValue != null;
   factory EitherValue.first(R1 value) => EitherValue._(firstValue: value);
   factory EitherValue.second(R2 value) => EitherValue._(secondValue: value);
+
+  void fold({void Function(R1)? onFirst, void Function(R2)? onSecond}) {
+    if (isFirst && onFirst != null) {
+      onFirst(firstValue!);
+    } else if (isSecond && onSecond != null) {
+      onSecond(secondValue!);
+    }
+  }
 
   const EitherValue._({this.firstValue, this.secondValue})
       : assert(

@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen>
     pageController.animateToPage(
       index,
       curve: Curves.fastOutSlowIn,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 400),
     );
   }
 }

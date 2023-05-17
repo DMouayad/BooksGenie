@@ -54,12 +54,13 @@ class _ClickableBookCardState extends State<ClickableBookCard>
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        FocusScope.of(context).unfocus();
         setState(() {
           _animationController.forward(from: 0).then((value) {
             _animationController.reverse().then((value) {
               context.goNamed(
                 "book-details",
-                params: {"bookId": widget.book.id!},
+                pathParameters: {"bookId": widget.book.id!},
               );
             });
           });

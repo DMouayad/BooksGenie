@@ -27,7 +27,7 @@ class AppRouter {
                 child: BookDetailsScreen(
                   book: context
                       .read<LibraryBloc>()
-                      .getBook(state.params['bookId']!),
+                      .getBook(state.pathParameters['bookId']!),
                 ),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {

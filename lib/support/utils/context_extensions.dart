@@ -53,7 +53,11 @@ extension ContextScreenSizeExtension on BuildContext {
 
   bool get isLandscapeMode => orientation == Orientation.landscape;
 
-  bool get isMobile => (isLandscapeMode ? screenHeight : screenWidth) < 600;
+  bool get isMobile =>
+      (isDesktopPlatform
+          ? screenWidth
+          : (isLandscapeMode ? screenHeight : screenWidth)) <
+      600;
   bool get isLandscapeMobile => (isLandscapeMode && isMobile);
 
   bool get isLandScapeTablet =>

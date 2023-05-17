@@ -16,28 +16,34 @@ class FirebaseWithGoogleBooksApiBookDataSource extends FirebaseBookDataSource {
 
   @override
   FutureResult<FirebaseBook?> getById(String id) async {
-    FirebaseBook resultBook;
+    late FirebaseBook resultBook;
     return await Result.fromStream((sink) async {
       // first check if the book exists in the local db
       // and if not fetch it from GoogleBooks API
       await (await super.getById(id)).foldAsync(
-        ifFailure: (error) async => sink.addError(error),
+        ifFailure: (error) async {
+          resultBook = await _getFromGoogleBooksApi(id);
+        },
         ifSuccess: (book) async {
           if (book == null) {
-            final googleBook = await google_books.getSpecificBook(id);
-            resultBook = FirebaseBook.fromGoogleBook(googleBook);
-            print(
-              "Book with id($id) was successfully fetched from GoogleBooks API",
-            );
-            saveBook(resultBook);
+            resultBook = await _getFromGoogleBooksApi(id);
           } else {
             resultBook = book;
             print("Book with id($id) was found in the firestore");
           }
-
-          sink.add(resultBook);
         },
       );
+      sink.add(resultBook);
     });
+  }
+
+  Future<FirebaseBook> _getFromGoogleBooksApi(String id) async {
+    final googleBook = await google_books.getSpecificBook(id);
+    print(
+      "Book with id($id) was successfully fetched from GoogleBooks API",
+    );
+    final resultBook = FirebaseBook.fromGoogleBook(googleBook);
+    saveBook(resultBook);
+    return resultBook;
   }
 }
